@@ -9,16 +9,14 @@ var cors = require('cors');
 
 // connetc db
 mongoose.connect('mongodb://localhost/entelapi');
-// models
+
+// imports models
 require('./models/Tareas');
-// new
-require('./models/Geofences');
+require('./models/Clients');
 
 // var routers
-var routes = require('./routes/index');
-var users = require('./routes/users');
-// new
-var geofences = require('./routes/geofences');
+var home = require('./routes/index');
+var clients = require('./routes/clients');
 
 // var allowMethods = function(req, res, next){
 //   res.header("Access-Control-Allow-Methods","GET, POST, PUT, DELETE, OPTIONS");
@@ -42,7 +40,7 @@ var geofences = require('./routes/geofences');
 // }
 
 var app = express();
-// app.options('*', cors());
+
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -52,9 +50,7 @@ app.use(function(req, res, next) {
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -68,22 +64,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 // app.use(allowCrossTokenHeader);
 
 // routers use
-app.use('/', routes);
-app.use('/users', users);
-// new
-app.use('/geofences', geofences);
+var endpoint = '/api/';
+app.use('/', home);
 
-// listen
-app.listen(8000);
+app.use(endpoint, clients);
 
-// catch 404 and forward to error handler
+
+/// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
-// error handlers
+/// error handlers
 
 // development error handler
 // will print stacktrace
@@ -107,5 +101,7 @@ app.use(function(err, req, res, next) {
   });
 });
 
+// listen
+app.listen(8000);
 
 module.exports = app;

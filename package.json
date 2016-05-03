@@ -1,5 +1,5 @@
 {
-  "name": "tareas",
+  "name": "ApiE",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -13,6 +13,7 @@
     "express": "~4.13.0",
     "mongoose": "^4.0.6",
     "morgan": "~1.6.1",
-    "serve-favicon": "~2.3.0"
+    "serve-favicon": "~2.3.0",
+    "cors": "~2.7.1"
   }
 }
